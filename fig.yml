@@ -1,0 +1,23 @@
+data:
+  image: openuniversity/data
+rdfstore:
+  image: openuniversity/sesame
+  volumes_from:
+    - data
+  ports:
+    - "9090:8080"
+iserve:
+  build: .
+  ports:
+    - "8080:8080"
+  links:
+    - rdfstore:rdfstore
+  volumes_from:
+    - data
+  environment:
+    - ISERVE_HOST=192.168.59.103
+    - ISERVE_PORT=8080
+    - ISERVE_BASE=/opt/iserve
+    - ISERVE_REPOSITORY=iserve
+    - RDFSTORE_TYPE=sesame  
+  command: /opt/iserve/scripts/setup-and-run.sh
