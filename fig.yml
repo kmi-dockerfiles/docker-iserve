@@ -7,7 +7,7 @@ rdfstore:
   ports:
     - "9090:8080"
 iserve:
-  build: .
+  image: openuniversity/iserve
   ports:
     - "8080:8080"
   links:

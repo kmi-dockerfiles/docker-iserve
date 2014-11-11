@@ -18,15 +18,11 @@ Requirements
 Usage
 -----
 
-To build a self-contained iServe simply do on the docker-iserve folder:
-
-	fig build
-	
-Then, once built, to launch the image do:
+To launch a self-contained iServe simply do on the docker-iserve folder:
 
 	fig up
 	
-After a few seconds where the server is being setup you should have access to iServe in the port 8080 or your docker host. On port 9090 you should have access to the underlying Sesame store.
+After some time during the server is being setup you should have access to iServe in the port 8080 or your docker host. On port 9090 you should have access to the underlying Sesame store. The first time it will take longer as we need to download many containers. Subsequent times will be much faster.
 
 For correct behaviour, iServe needs to know the public host and port under which it will be available. Currently it is configured by default at:
 
