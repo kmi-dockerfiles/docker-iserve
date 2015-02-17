@@ -7,7 +7,7 @@ rdfstore:
   ports:
     - "9090:8080"
 iserve:
-  image: openuniversity/iserve
+  build: .
   ports:
     - "8080:8080"
   links:
@@ -19,5 +19,7 @@ iserve:
     - ISERVE_PORT=8080
     - ISERVE_BASE=/opt/iserve
     - ISERVE_REPOSITORY=iserve
+    - RDFSTORE_HOST=rdfstore
+    - RDFSTORE_PORT=8080
     - RDFSTORE_TYPE=sesame  
   command: /opt/iserve/scripts/setup-and-run.sh

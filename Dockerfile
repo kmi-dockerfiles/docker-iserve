@@ -2,10 +2,10 @@ FROM tutum/tomcat:7.0
 
 MAINTAINER Carlos Pedrinaci "carlos.pedrinaci@open.ac.uk"
 
-ENV ISERVE_VERSION 2.0.0-RC1
+ENV ISERVE_VERSION 2.0.0-RC3
 
 ENV ISERVE_APP_NAME iserve
-ENV ISERVE_DATA /data/iserve
+ENV ISERVE_BASE /data/iserve
 
 # Container setup
 
@@ -13,6 +13,9 @@ ENV ISERVE_HOST localhost
 ENV ISERVE_PORT 8080
 ENV CATALINA_BASE /tomcat
 ENV JAVA_MAXMEMORY 1024
+# Setup accordingly the env variables below
+ENV RDFSTORE_HOST localhost
+ENV RDFSTORE_PORT 9090
 ENV RDFSTORE_TYPE sesame
 
 ENV JAVA_OPTS -Dlog4j.configuration=file:/opt/iserve/conf/log4j.properties -Delda.spec=/opt/iserve/conf/elda-spec-iserve.ttl -Diserve.config=/opt/iserve/conf/config.properties.env 
