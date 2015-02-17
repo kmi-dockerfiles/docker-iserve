@@ -68,7 +68,7 @@ By default the memory devoted to iServe is setup to 1 GB. You may override this 
 	
 By default iServe's data will be stored at /data/iserve. You may configure this using the `ISERVE_DATA` environment variable:
 	
-	docker run -d -p 8080:8080 -e ISERVE_DATA="/myfolder" openuniversity/iserve
+	docker run -d -p 8080:8080 -e ISERVE_BASE="/myfolder" openuniversity/iserve
 
 Source
 ------
