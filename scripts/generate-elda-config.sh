@@ -27,5 +27,5 @@ TEXT_SEARCH_CONFIG=$(
   esac)
 
 
-sed -e "s@%ISERVE_APP_NAME%@$3@g" -e "s@%ISERVE_PATH%@http://$1:$2/$3@g" -e "s@%SPARQL_ENDPOINT%@$SPARQL_ENDPOINT@g" -e "s@%TEXT_SEARCH_CONFIG%@$TEXT_SEARCH_CONFIG@g" $DIR/elda-spec-template.ttl > $DIR/elda-spec-iserve.ttl
+sed -e "s@%ISERVE_APP_NAME%@$3@g" -e "s@%ISERVE_PATH%@http://$1:$2/$3@g" -e "s@%SPARQL_ENDPOINT%@$SPARQL_ENDPOINT@g" -e "s@%TEXT_SEARCH_CONFIG%@$TEXT_SEARCH_CONFIG@g" elda-spec-template.ttl > elda-spec-iserve.ttl
 echo "Configuration file generated at $DIR/elda-spec-iserve.ttl"

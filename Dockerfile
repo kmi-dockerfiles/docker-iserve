@@ -2,7 +2,7 @@ FROM tutum/tomcat:7.0
 
 MAINTAINER Carlos Pedrinaci "carlos.pedrinaci@open.ac.uk"
 
-ENV ISERVE_VERSION 2.0.0-RC3
+ENV ISERVE_VERSION 2.0.0
 
 ENV ISERVE_APP_NAME iserve
 ENV ISERVE_BASE /data/iserve
