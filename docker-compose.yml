@@ -1,25 +1,33 @@
-data:
-  image: openuniversity/data
+# data:
+#   image: openuniversity/data
 rdfstore:
-  image: openuniversity/sesame
-  volumes_from:
-    - data
+  image: openuniversity/fuseki
+  volumes:
+    - ./scripts:/opt/scripts
+  # volumes_from:
+  #   - data
   ports:
-    - "9090:8080"
+    - "3030:3030"
+  environment:
+    - FUSEKI_BASE=/data
+    - JVM_ARGS=-Xmx2g
+  entrypoint: /opt/scripts/setup-fuseki.sh
 iserve:
+#  image: openuniversity/iserve
   build: .
   ports:
     - "8080:8080"
   links:
     - rdfstore:rdfstore
-  volumes_from:
-    - data
+  # volumes_from:
+  #   - data
   environment:
-    - ISERVE_HOST=192.168.59.103
+    - ISERVE_HOST=192.168.99.100
     - ISERVE_PORT=8080
     - ISERVE_BASE=/opt/iserve
     - ISERVE_REPOSITORY=iserve
     - RDFSTORE_HOST=rdfstore
-    - RDFSTORE_PORT=8080
-    - RDFSTORE_TYPE=sesame  
+    - RDFSTORE_PORT=3030
+    - RDFSTORE_TYPE=fuseki
+    - JVM_ARGS=-Xmx2g
   command: /opt/iserve/scripts/setup-and-run.sh

@@ -1,17 +1,28 @@
 #!/bin/sh
 
 # Wait for it
-until [ "`curl --silent --show-error --connect-timeout 1 -I http://${RDFSTORE_HOST}:${RDFSTORE_PORT} | grep 'Coyote'`" != "" ];
+until [ "`curl --silent --show-error --connect-timeout 1 -I http://${RDFSTORE_HOST}:${RDFSTORE_PORT} | grep '200 OK'`" != "" ];
 do
-  echo "--- sleeping for 10 seconds"
-  sleep 10
+  echo "--- sleeping for 5 seconds"
+  sleep 5
 done
 
 echo "RDF Store listening"
 
 # Setup the store 
 if [ ! -f /data/.repository_created ]; then
-	${ISERVE_BASE}/scripts/setup-sesame.sh ${RDFSTORE_HOST} ${RDFSTORE_PORT}
+    case "${RDFSTORE_TYPE}" in
+      ("sesame") 
+          ${ISERVE_BASE}/scripts/setup-sesame.sh ${RDFSTORE_HOST} ${RDFSTORE_PORT} ;;
+      ("owlim") 
+          ${ISERVE_BASE}/scripts/setup-owlim.sh ${RDFSTORE_HOST} ${RDFSTORE_PORT} ;;
+      ("fuseki") 
+          echo "Using fuseki. Already setup." ;;
+      (*) 
+          echo "$7 is an unknown RDF store. Configure manually."
+          exit 1 ;;
+    esac
+    
 	echo "Repository created"
 	touch /data/.repository_created
 fi
