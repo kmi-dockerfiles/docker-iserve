@@ -16,45 +16,43 @@
 
 set -e
 
-if [ ! -f "$FUSEKI_BASE/config.ttl" ] ; then
+if [ ! -f "$FUSEKI_BASE/shiro.ini" ] ; then
   # First time
   echo "###################################"
   echo "Initializing Apache Jena Fuseki"
   echo ""
+
+  # Get the folders ready
+  mkdir -p $FUSEKI_BASE/configuration
+  cp "$FUSEKI_HOME/shiro.ini" "$FUSEKI_BASE/shiro.ini"
   
-  # Let's skip passwords
-  #
-  # cp "$FUSEKI_HOME/shiro.ini" "$FUSEKI_BASE/shiro.ini"
-  # if [ -z "$ADMIN_PASSWORD" ] ; then
-  #   ADMIN_PASSWORD=$(pwgen -s 15)
-  #   echo "Randomly generated admin password:"
-  #   echo ""
-  #   echo "admin=$ADMIN_PASSWORD"
-  # fi
+  if [ -z "$ADMIN_PASSWORD" ] ; then
+    ADMIN_PASSWORD=$(pwgen -s 15)
+    echo "Randomly generated admin password:"
+    echo ""
+    echo "admin=$ADMIN_PASSWORD"
+  fi
   
   CONFIG=/opt/scripts/repositories-config/iserve-fuseki-v2.ttl
-  CONFIG_SVC=/opt/scripts/repositories-config/iserve_text_tdb.ttl
-  
-  mkdir $FUSEKI_BASE/configuration 
   cp $CONFIG $FUSEKI_BASE/config.ttl
-  echo "Copied $CONFIG to $FUSEKI_BASE"  
-
+  echo "Copied $CONFIG to $FUSEKI_BASE/config.ttl"
+  
+  CONFIG_SVC=/opt/scripts/repositories-config/iserve-text-tdb.ttl
   cp $CONFIG_SVC $FUSEKI_BASE/configuration
+  # Set the right folder. Note that the '/' of the replacement have to be escaped
+  sed -i "s/FUSEKI_BASE/$(echo $FUSEKI_BASE | sed -e 's/\\/\\\\/g' -e 's/\//\\\//g' -e 's/&/\\\&/g')/g" "$FUSEKI_BASE/configuration/iserve-text-tdb.ttl"
   echo "Copied $CONFIG_SVC to $FUSEKI_BASE/configuration"
   
   echo ""
   echo "###################################"
 fi
 
-# Let's skip passwords
-#
-# $ADMIN_PASSWORD can always override
-# if [ -n "$ADMIN_PASSWORD" ] ; then
-#   sed -i "s/^admin=.*/admin=$ADMIN_PASSWORD/" "$FUSEKI_BASE/shiro.ini"
-# fi
 
-#exec "$1"
+#$ADMIN_PASSWORD can always override
+if [ -n "$ADMIN_PASSWORD" ] ; then
+  sed -i "s/^admin=.*/admin=$ADMIN_PASSWORD/" "$FUSEKI_BASE/shiro.ini"
+fi
 
-exec /jena-fuseki/fuseki-server
+exec "$@"
 
-
+#exec /jena-fuseki/fuseki-server --config=$FUSEKI_BASE/configuration/config.ttl 

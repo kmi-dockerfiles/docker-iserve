@@ -1,33 +1,38 @@
-# data:
-#   image: openuniversity/data
+data:
+  image: busybox
+  volumes:
+    - /Users/cp3982/Workspace/Data/docker-runtime:/data
 rdfstore:
-  image: openuniversity/fuseki
+  image: stain/jena-fuseki
+#  image: openuniversity/fuseki
   volumes:
     - ./scripts:/opt/scripts
-  # volumes_from:
-  #   - data
+  volumes_from:
+    - data
   ports:
     - "3030:3030"
   environment:
-    - FUSEKI_BASE=/data
+    - FUSEKI_BASE=/data/fuseki
     - JVM_ARGS=-Xmx2g
   entrypoint: /opt/scripts/setup-fuseki.sh
-iserve:
-#  image: openuniversity/iserve
-  build: .
-  ports:
-    - "8080:8080"
-  links:
-    - rdfstore:rdfstore
-  # volumes_from:
-  #   - data
-  environment:
-    - ISERVE_HOST=192.168.99.100
-    - ISERVE_PORT=8080
-    - ISERVE_BASE=/opt/iserve
-    - ISERVE_REPOSITORY=iserve
-    - RDFSTORE_HOST=rdfstore
-    - RDFSTORE_PORT=3030
-    - RDFSTORE_TYPE=fuseki
-    - JVM_ARGS=-Xmx2g
-  command: /opt/iserve/scripts/setup-and-run.sh
+  command: /jena-fuseki/fuseki-server --config=/data/fuseki/config.ttl --set tdb:fileMode=direct
+# iserve:
+# #  image: openuniversity/iserve
+#   build: .
+#   ports:
+#     - "8080:8080"
+#   links:
+#     - rdfstore:rdfstore
+#   volumes_from:
+#     - data
+#   environment:
+#     - ISERVE_HOST=192.168.99.100
+#     - ISERVE_PORT=8080
+#     - ISERVE_BASE=/opt/iserve
+#     - ISERVE_DATA=/data/iserve
+#     - ISERVE_REPOSITORY=iserve
+#     - RDFSTORE_HOST=rdfstore
+#     - RDFSTORE_PORT=3030
+#     - RDFSTORE_TYPE=fuseki
+#     - JVM_ARGS=-Xmx2g
+#   command: /opt/iserve/scripts/setup-and-run.sh

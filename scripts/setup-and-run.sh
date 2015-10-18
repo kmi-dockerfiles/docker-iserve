@@ -10,7 +10,7 @@ done
 echo "RDF Store listening"
 
 # Setup the store 
-if [ ! -f /data/.repository_created ]; then
+if [ ! -f ${ISERVE_DATA}/.repository_created ]; then
     case "${RDFSTORE_TYPE}" in
       ("sesame") 
           ${ISERVE_BASE}/scripts/setup-sesame.sh ${RDFSTORE_HOST} ${RDFSTORE_PORT} ;;
@@ -24,7 +24,8 @@ if [ ! -f /data/.repository_created ]; then
     esac
     
 	echo "Repository created"
-	touch /data/.repository_created
+    mkdir -p ${ISERVE_DATA}
+	touch ${ISERVE_DATA}/.repository_created
 fi
 
 if [ ! -f /.tomcat_admin_created ]; then

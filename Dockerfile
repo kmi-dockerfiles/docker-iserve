@@ -5,7 +5,8 @@ MAINTAINER Carlos Pedrinaci "carlos.pedrinaci@open.ac.uk"
 ENV ISERVE_VERSION 2.0.0
 
 ENV ISERVE_APP_NAME iserve
-ENV ISERVE_BASE /data/iserve
+ENV ISERVE_BASE /opt/iserve
+ENV ISERVE_DATA /data/iserve
 
 # Container setup
 
@@ -32,5 +33,7 @@ COPY ./scripts/ /opt/iserve/scripts/
 RUN chmod +x /opt/iserve/scripts/*.sh
 
 COPY run.sh /run.sh
+
+VOLUME /data
 
 CMD ["/run.sh"]
