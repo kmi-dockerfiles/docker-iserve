@@ -28,13 +28,13 @@
     tdb:unionDefaultGraph true ;
     .
 
-:indexLucene> a text:TextIndexLucene ;
+:indexLucene a text:TextIndexLucene ;
     text:directory <file:Lucene> ;
     ##text:directory "mem" ;
     text:entityMap :entMap ;
     .
 
-:entMap> a text:EntityMap ;
+:entMap a text:EntityMap ;
     text:entityField      "uri" ;
     text:defaultField     "text" ;        ## Should be defined in the text:map.
     text:map (
