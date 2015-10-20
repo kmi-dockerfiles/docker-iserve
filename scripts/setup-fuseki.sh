@@ -33,11 +33,7 @@ if [ ! -f "$FUSEKI_BASE/shiro.ini" ] ; then
     echo "admin=$ADMIN_PASSWORD"
   fi
   
-  CONFIG=/opt/scripts/repositories-config/iserve-fuseki-v2.ttl
-  cp $CONFIG $FUSEKI_BASE/config.ttl
-  echo "Copied $CONFIG to $FUSEKI_BASE/config.ttl"
-  
-  CONFIG_SVC=/opt/scripts/repositories-config/iserve-text-tdb.ttl
+  CONFIG_SVC=$FUSEKI_BASE/scripts/repositories-config/iserve-text-tdb.ttl
   cp $CONFIG_SVC $FUSEKI_BASE/configuration
   # Set the right folder. Note that the '/' of the replacement have to be escaped
   sed -i "s/FUSEKI_BASE/$(echo $FUSEKI_BASE | sed -e 's/\\/\\\\/g' -e 's/\//\\\//g' -e 's/&/\\\&/g')/g" "$FUSEKI_BASE/configuration/iserve-text-tdb.ttl"
