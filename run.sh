@@ -7,7 +7,7 @@ fi
 # Setup elda-spec
 ${ISERVE_BASE}/scripts/generate-elda-config.sh ${ISERVE_HOST} ${ISERVE_PORT} ${ISERVE_APP_NAME} ${RDFSTORE_HOST} ${RDFSTORE_PORT} ${ISERVE_REPOSITORY} ${RDFSTORE_TYPE} 
 echo "iServe GUI configuration created"
-cp ${ISERVE_BASE}/scripts/elda-spec-iserve.ttl ${ISERVE_BASE}/conf
+cp ${ISERVE_BASE}/scripts/elda-spec-iserve.ttl ${ISERVE_DATA}/conf
 
 export JAVA_OPTS="$JAVA_OPTS -Duser.language=en"
 export CATALINA_PID=${CATALINA_HOME}/temp/tomcat.pid
