@@ -2,14 +2,20 @@ iservedata:
   image: busybox
   volumes:
     - /Users/cp3982/Workspace/Data/docker-runtime/iserve:/iserve
+fusekidata:
+  image: busybox
+  volumes:
+    - /Users/cp3982/Workspace/Data/docker-runtime/fuseki:/fuseki    
 rdfstore:
   image: stain/jena-fuseki
-#  image: openuniversity/fuseki
+  volumes_from:
+    - fusekidata
   volumes:
     - ./scripts:/fuseki/scripts
   ports:
     - "3030:3030"
   environment:
+    - ADMIN_PASSWORD=admin
     - FUSEKI_BASE=/fuseki
     - JVM_ARGS=-Xmx2g
   entrypoint: /fuseki/scripts/setup-fuseki.sh

@@ -19,7 +19,7 @@ if [ ! -f ${ISERVE_DATA}/.repository_created ]; then
       ("fuseki") 
           echo "Using fuseki. Already setup." ;;
       (*) 
-          echo "$7 is an unknown RDF store. Configure manually."
+          echo "${RDFSTORE_TYPE} is an unknown RDF store. Configure manually."
           exit 1 ;;
     esac
     
