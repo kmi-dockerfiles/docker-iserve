@@ -5,7 +5,11 @@ iservedata:
 fusekidata:
   image: busybox
   volumes:
-    - /Users/cp3982/Workspace/Data/docker-runtime/fuseki:/fuseki    
+    - /Users/cp3982/Workspace/Data/docker-runtime/fuseki:/fuseki  
+redisdata:
+  image: busybox
+  volumes:
+    - /Users/cp3982/Workspace/Data/docker-runtime/redis:/data
 rdfstore:
   image: stain/jena-fuseki
   volumes_from:
@@ -20,17 +24,24 @@ rdfstore:
     - JVM_ARGS=-Xmx2g
   entrypoint: /fuseki/scripts/setup-fuseki.sh
   command: /jena-fuseki/fuseki-server --set tdb:fileMode=direct
+redis:
+    image: redis
+    volumes_from:
+      - redisdata
+    ports:
+      - "6379:6379"
+    command: redis-server
 iserve:
-#  image: openuniversity/iserve
   build: .
   ports:
     - "8080:8080"
   links:
     - rdfstore:rdfstore
+    - redis:redis
   volumes_from:
     - iservedata
   environment:
-    - ISERVE_HOST=192.168.99.100
+    - ISERVE_HOST=192.168.99.101
     - ISERVE_PORT=8080
     - ISERVE_BASE=/opt/iserve
     - ISERVE_DATA=/iserve
@@ -38,5 +49,7 @@ iserve:
     - RDFSTORE_HOST=rdfstore
     - RDFSTORE_PORT=3030
     - RDFSTORE_TYPE=fuseki
+    - REDIS_HOST=redis
+    - REDIS_PORT=6379
     - JVM_ARGS=-Xmx2g
   command: /opt/iserve/scripts/setup-and-run.sh
