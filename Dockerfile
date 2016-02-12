@@ -18,8 +18,8 @@ ENV JVM_ARGS -Xmx2g
 
 # Setup accordingly the env variables below
 ENV RDFSTORE_HOST localhost
-ENV RDFSTORE_PORT 9090
-ENV RDFSTORE_TYPE sesame
+ENV RDFSTORE_PORT 3030
+ENV RDFSTORE_TYPE fuseki
 
 # Redis
 ENV REDIS_HOST localhost
@@ -34,12 +34,10 @@ RUN apt-get update && apt-get install -y curl && apt-get clean
 RUN rm -rf ${CATALINA_BASE}/webapps/docs && rm -rf ${CATALINA_BASE}/webapps/examples && wget https://github.com/kmi/iserve/releases/download/v${ISERVE_VERSION}/iserve-webapp-${ISERVE_VERSION}.war -O ${CATALINA_BASE}/webapps/${ISERVE_APP_NAME}.war
 
 # Setup iServe
-COPY ./conf/ /opt/iserve/conf/
+COPY ./conf/ /iserve/conf/
 COPY ./scripts/ /opt/iserve/scripts/
 RUN chmod +x /opt/iserve/scripts/*.sh
 
-COPY run.sh /run.sh
-
 VOLUME /iserve
 
-CMD ["/run.sh"]
+CMD ["/opt/iserve/scripts/run.sh"]
