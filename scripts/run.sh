@@ -4,6 +4,16 @@ if [ ! -f /.tomcat_admin_created ]; then
     /create_tomcat_admin_user.sh
 fi
 
+# Create config folder if necessary
+if [ ! -d "${ISERVE_DATA}/conf" ]; then
+    mkdir -p ${ISERVE_DATA}/conf
+fi
+
+# Setup Log4j if necessary 
+if [ ! -f "${ISERVE_DATA}/conf/logback.xml" ]; then
+  cp ${ISERVE_BASE}/conf/logback.xml ${ISERVE_DATA}/conf/
+fi
+
 # Setup ELDA Configuration if necessary 
 if [ ! -f "${ISERVE_DATA}/conf/elda-spec-iserve.ttl" ]; then
   # Generate ELDA config

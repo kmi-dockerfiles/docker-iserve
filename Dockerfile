@@ -25,6 +25,10 @@ ENV RDFSTORE_TYPE fuseki
 ENV REDIS_HOST localhost
 ENV REDIS_PORT 6379
 
+# Logging setup
+ENV LOG_LEVEL_ISERVE INFO
+ENV LOG_LEVEL_MSM4J WARN
+
 ENV JAVA_OPTS -Dlog4j.configuration=file:/iserve/conf/log4j.properties -Delda.spec=/iserve/conf/elda-spec-iserve.ttl -Diserve.config=/iserve/conf/config.properties.env 
 
 # Install CURL
@@ -34,7 +38,7 @@ RUN apt-get update && apt-get install -y curl && apt-get clean
 RUN rm -rf ${CATALINA_BASE}/webapps/docs && rm -rf ${CATALINA_BASE}/webapps/examples && wget https://github.com/kmi/iserve/releases/download/v${ISERVE_VERSION}/iserve-webapp-${ISERVE_VERSION}.war -O ${CATALINA_BASE}/webapps/${ISERVE_APP_NAME}.war
 
 # Setup iServe
-COPY ./conf/ /iserve/conf/
+COPY ./conf/ /opt/iserve/conf/
 COPY ./scripts/ /opt/iserve/scripts/
 RUN chmod +x /opt/iserve/scripts/*.sh
 
