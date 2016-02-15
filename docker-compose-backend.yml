@@ -1,16 +1,21 @@
+fusekiconfig:
+  image: openuniversity/fuseki-iserve-config
+
 fusekidata:
   image: busybox
   volumes:
-    - /Users/cp3982/Workspace/Data/docker-runtime/fuseki:/fuseki
+    - /Users/cp3982/Workspace/Data/docker-runtime/fuseki/databases:/fuseki/databases
+    - /Users/cp3982/Workspace/Data/docker-runtime/fuseki/logs:/fuseki/logs
+
 redisdata:
   image: busybox
   volumes:
     - /Users/cp3982/Workspace/Data/docker-runtime/redis:/data
+
 rdfstore:
   image: stain/jena-fuseki
-  volumes:
-    - ./scripts:/jena-fuseki/scripts
   volumes_from:
+    - fusekiconfig
     - fusekidata
   ports:
     - "3030:3030"
@@ -18,8 +23,8 @@ rdfstore:
     - ADMIN_PASSWORD=admin
     - FUSEKI_BASE=/fuseki
     - JVM_ARGS=-Xms1500m -Xmx2500m
-  entrypoint: /jena-fuseki/scripts/setup-fuseki.sh
   command: /jena-fuseki/fuseki-server --set tdb:fileMode=direct
+
 redis:
     image: redis
     volumes_from:
