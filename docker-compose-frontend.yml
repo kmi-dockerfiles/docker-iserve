@@ -12,13 +12,14 @@ services:
     volumes_from:
       - iservedata
     environment:
-      - LOG_LEVEL=info
-      - ISERVE_HOST=192.168.99.100
+      - LOG_LEVEL_ISERVE=INFO
+      - LOG_LEVEL_MSM4J=WARN
+# Override     - ISERVE_HOST=XXXX
       - ISERVE_PORT=8080
       - ISERVE_BASE=/opt/iserve
       - ISERVE_DATA=/iserve
       - ISERVE_REPOSITORY=iserve
-      - RDFSTORE_HOST=192.168.99.100
+# Override      - RDFSTORE_HOST=XXXX
       - RDFSTORE_PORT=3030
       - RDFSTORE_TYPE=fuseki
       - JVM_ARGS=-Xms800m -Xmx1500m
