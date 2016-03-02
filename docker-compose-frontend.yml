@@ -4,7 +4,7 @@ services:
   iservedata:
     image: busybox
     volumes:
-      - /Users/cp3982/Workspace/Data/docker-runtime/iserve:/iserve  
+      - iserve-data:/iserve  
   iserve:
     image: openuniversity/iserve
     ports:
@@ -21,7 +21,9 @@ services:
       - RDFSTORE_HOST=192.168.99.100
       - RDFSTORE_PORT=3030
       - RDFSTORE_TYPE=fuseki
-      - REDIS_HOST=192.168.99.100
-      - REDIS_PORT=6379
       - JVM_ARGS=-Xms800m -Xmx1500m
     command: /opt/iserve/scripts/setup-and-run.sh
+
+volumes:
+  iserve-data:
+    {}

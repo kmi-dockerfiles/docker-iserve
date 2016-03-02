@@ -2,17 +2,12 @@ version: '2'
 
 services:
   fusekiconfig:
-    image: openuniversity/fuseki-iserve-config
+    image: openuniversity/fuseki-config-iserve
 
   fusekidata:
     image: busybox
     volumes:
-      - fuseki:/fuseki/databases
-
-  redisdata:
-    image: busybox
-    volumes:
-      - redis:/data
+      - fuseki-data:/fuseki/databases
 
   rdfstore:
     image: stain/jena-fuseki
@@ -22,27 +17,17 @@ services:
     ports:
       - "3030:3030"
     networks:
-      - back-tier
+      - backend
     environment:
       - ADMIN_PASSWORD=admin
       - FUSEKI_BASE=/fuseki
       - JVM_ARGS=-Xms1500m -Xmx2500m
     command: /jena-fuseki/fuseki-server --set tdb:fileMode=direct
-
-  redis:
-      image: redis
-      volumes_from:
-        - redisdata
-      ports:
-        - "6379:6379"
-      networks:
-        - back-tier
-      command: redis-server
   
   iservedata:
     image: busybox
     volumes:
-      - iserve:/iserve  
+      - iserve-data:/iserve  
     
   iserve:
     image: openuniversity/iserve
@@ -50,15 +35,14 @@ services:
       - "8080:8080"
     links:
       - rdfstore
-      - redis
     volumes_from:
       - iservedata
     networks:
-      - front-tier
-      - back-tier
+      - frontend
+      - backend
     environment:
-      - LOG_LEVEL=info
-      - ISERVE_HOST=192.168.99.100
+      - LOG_LEVEL_ISERVE=INFO
+      - LOG_LEVEL_MSM4J=WARN
       - ISERVE_PORT=8080
       - ISERVE_BASE=/opt/iserve
       - ISERVE_DATA=/iserve
@@ -66,21 +50,17 @@ services:
       - RDFSTORE_HOST=rdfstore
       - RDFSTORE_PORT=3030
       - RDFSTORE_TYPE=fuseki
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
       - JVM_ARGS=-Xms800m -Xmx1500m
     command: /opt/iserve/scripts/setup-and-run.sh
 
 networks:
-  front-tier:
+  frontend:
     driver: bridge
-  back-tier:
+  backend:
     driver: bridge
 
 volumes:
-  redis:
+  fuseki-data:
     {}
-  fuseki:
-    {}
-  iserve:
+  iserve-data:
     {}

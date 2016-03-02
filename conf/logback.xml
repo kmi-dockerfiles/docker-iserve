@@ -11,7 +11,7 @@
 
     <!-- Send debug messages to a file -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${env:ISERVE_DATA}/logs/iserve.log</file>
+        <file>${ISERVE_DATA}/logs/iserve.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
         </encoder>
@@ -27,12 +27,12 @@
         </triggeringPolicy>
     </appender>
 
-    <logger name="uk.ac.open.kmi.iserve" level="${env:LOG_LEVEL_ISERVE}" additivity="false">
+    <logger name="uk.ac.open.kmi.iserve" level="${LOG_LEVEL_ISERVE}" additivity="false">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </logger>
 
-    <logger name="uk.ac.open.kmi.msm4j" level="${env:LOG_LEVEL_MSM4J}" additivity="false">
+    <logger name="uk.ac.open.kmi.msm4j" level="${LOG_LEVEL_MSM4J}" additivity="false">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </logger>

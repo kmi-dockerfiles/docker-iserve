@@ -29,7 +29,7 @@ ENV REDIS_PORT 6379
 ENV LOG_LEVEL_ISERVE INFO
 ENV LOG_LEVEL_MSM4J WARN
 
-ENV JAVA_OPTS -Dlogback.configurationFile=/Users/cp3982/Workspace/iserve/conf/logback.xml -Delda.spec=/iserve/conf/elda-spec-iserve.ttl -Diserve.config=/iserve/conf/config.properties.env 
+ENV JAVA_OPTS -Dlogback.configurationFile=/iserve/conf/logback.xml -Delda.spec=/iserve/conf/elda-spec-iserve.ttl -Diserve.config=/iserve/conf/config.properties.env 
 
 # Install CURL
 RUN apt-get update && apt-get install -y curl && apt-get clean
